@@ -21,6 +21,7 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['middleware' => 'refresh.token'], function () {
     Route::get('customs', 'API\CustomController@index');
     Route::post('custom', 'API\CustomController@store');
+    Route::get('profile', 'API\AuthController@profile');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

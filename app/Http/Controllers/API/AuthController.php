@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -36,5 +37,11 @@ class AuthController extends Controller
         Auth::guard('api')->logout();
 
         return response()->json(['message' => '退出成功']);
+    }
+
+    public function profile()
+    {
+       $user =  Auth::guard('api')->user();
+       return new UserResource($user);
     }
 }
