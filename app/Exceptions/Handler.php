@@ -64,7 +64,7 @@ class Handler extends ExceptionHandler
 
         // token 过期，返回 401 和提示信息
         if ($exception instanceof TokenExpiredException) {
-            return response()->json(['error' => 'token 过期，请重新登录'], 401);
+            return response()->json(['error' => 'token 过期   ，请重新登录'], 401);
         }
 
         return parent::render($request, $exception);
