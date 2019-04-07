@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -43,5 +45,16 @@ class AuthController extends Controller
     {
        $user =  Auth::guard('api')->user();
        return new UserResource($user);
+    }
+
+    public function profiles()
+    {
+        return UserResource::collection(User::all());
+    }
+
+    public function store(UserRequest $userRequest)
+    {
+        $userRequest['password'] = bcrypt($userRequest['password']);
+        return new UserResource(User::create($userRequest->toArray()));
     }
 }

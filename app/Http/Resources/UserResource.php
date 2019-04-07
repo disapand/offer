@@ -17,9 +17,10 @@ class UserResource extends Resource
         return [
             'username' => $this->username,
             'account' => $this->account,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'deleted_at' => $this->created_at,
+            'sign' => strtoupper($this->sign),
+            'created_at' => $this->created_at->toDateTimeString(),
+            'updated_at' => $this->updated_at->toDateTimeString(),
+            'deleted_at' => $this->created_at->toDateTimeString(),
         ];
     }
 }

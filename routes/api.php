@@ -22,6 +22,8 @@ Route::group(['middleware' => 'refresh.token'], function () {
     Route::get('customs', 'API\CustomController@index');
     Route::post('custom', 'API\CustomController@store');
     Route::get('profile', 'API\AuthController@profile');
+    Route::get('profiles', 'API\AuthController@profiles');
+    Route::post('profile', 'API\AuthController@store');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
