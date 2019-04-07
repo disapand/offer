@@ -24,6 +24,7 @@ Route::group(['middleware' => 'refresh.token'], function () {
     Route::get('profile', 'API\AuthController@profile');
     Route::get('profiles', 'API\AuthController@profiles');
     Route::post('profile', 'API\AuthController@store');
+    Route::delete('profile/{user}', 'API\AuthController@destroy');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

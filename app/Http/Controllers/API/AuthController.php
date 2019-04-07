@@ -57,4 +57,12 @@ class AuthController extends Controller
         $userRequest['password'] = bcrypt($userRequest['password']);
         return new UserResource(User::create($userRequest->toArray()));
     }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return response()->json([
+            'message' => '删除成功'
+        ]);
+    }
 }
