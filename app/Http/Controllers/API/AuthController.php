@@ -47,6 +47,11 @@ class AuthController extends Controller
        return new UserResource($user);
     }
 
+    public function show(User $user)
+    {
+        return new UserResource($user);
+    }
+
     public function profiles()
     {
         return UserResource::collection(User::all());
@@ -55,14 +60,34 @@ class AuthController extends Controller
     public function store(UserRequest $userRequest)
     {
         $userRequest['password'] = bcrypt($userRequest['password']);
-        return new UserResource(User::create($userRequest->toArray()));
+        return new UserResource(User::updateOrCreate($userRequest->toArray()));
+    }
+
+    public function update(User $user, Request $request)
+    {
+        if ($request['password']) {
+            $request['password'] = bcrypt($request['password']);
+        } else {
+            unset($request['password']);
+        }
+        $user->update($request->toArray());
+        return response()->json([
+            'message' => '更新成功'
+        ]);
     }
 
     public function destroy(User $user)
     {
-        $user->delete();
-        return response()->json([
-            'message' => '删除成功'
-        ]);
+        try{
+            $user->delete();
+            return response()->json([
+                'message' => '删除成功'
+            ]);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => $exception
+            ], 500);
+        }
+
     }
 }

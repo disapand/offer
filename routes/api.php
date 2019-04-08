@@ -21,10 +21,12 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['middleware' => 'refresh.token'], function () {
     Route::get('customs', 'API\CustomController@index');
     Route::post('custom', 'API\CustomController@store');
+    Route::delete('profile/{user}', 'API\AuthController@destroy');
     Route::get('profile', 'API\AuthController@profile');
+    Route::get('profile/{user}', 'API\AuthController@show');
+    Route::put('profile/{user}', 'API\AuthController@update');
     Route::get('profiles', 'API\AuthController@profiles');
     Route::post('profile', 'API\AuthController@store');
-    Route::delete('profile/{user}', 'API\AuthController@destroy');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
