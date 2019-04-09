@@ -18,7 +18,7 @@ class CustomController extends Controller
      */
     public function index()
     {
-        return new CustomResource(Custom::all());
+        return new CustomResource(Custom::paginate());
     }
 
     /**
@@ -27,7 +27,7 @@ class CustomController extends Controller
      * @param Custom $custom
      * @return CustomResource
      */
-    public function get(Custom $custom)
+    public function show(Custom $custom)
     {
         return new CustomResource($custom);
     }
@@ -41,5 +41,26 @@ class CustomController extends Controller
     public function store(CustomRequest $request)
     {
         return new CustomResource(Custom::create($request->toArray()));
+    }
+
+    public function destroy(Custom $custom)
+    {
+        try {
+            $custom->delete();
+            return response()->json([
+                'message' => '删除成功'
+            ]);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => '删除客户信息出错',
+                'Msg' => $exception->getMessage()
+            ]);
+        }
+    }
+
+    public function update(Request $request, Custom $custom)
+    {
+        $custom->update($request->toArray());
+        return new CustomResource($custom);
     }
 }

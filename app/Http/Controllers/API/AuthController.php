@@ -85,9 +85,9 @@ class AuthController extends Controller
             ]);
         } catch (\Exception $exception) {
             return response()->json([
-                'error' => $exception
-            ], 500);
+                'error' => '删除账号信息出错',
+                'Msg' => $exception->getMessage()
+            ]);
         }
-
     }
 }
