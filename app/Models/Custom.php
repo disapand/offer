@@ -10,8 +10,12 @@ class Custom extends Model
     use SoftDeletes;
 
 
+    /**
+     * 可填充字段，只有设置在 fillable 中的字段才可以通过程序新增
+     * @var array
+     */
     protected $fillable = [
-        'name', 'number', 'company', 'addr', 'email'
+        'name', 'number', 'company', 'addr', 'email', 'notice'
     ];
 
     /**

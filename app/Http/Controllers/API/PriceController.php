@@ -17,7 +17,7 @@ class PriceController extends Controller
      */
     public function index()
     {
-        return PriceResource::collection(Price::paginate());
+        return PriceResource::collection(Price::paginate(5));
     }
 
     /**
@@ -56,7 +56,7 @@ class PriceController extends Controller
     public function search($name)
     {
         $prices = Price::where('name', 'like', "%$name%")->paginate();
-        return PriceResource::collection($prices);
+        return PriceResource::collection($prices->paginate(5));
     }
 
     /**

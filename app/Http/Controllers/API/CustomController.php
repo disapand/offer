@@ -43,6 +43,12 @@ class CustomController extends Controller
         return new CustomResource(Custom::create($request->toArray()));
     }
 
+
+    /**
+     * 删除指定的客户信息
+     * @param Custom $custom
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(Custom $custom)
     {
         try {
@@ -58,6 +64,12 @@ class CustomController extends Controller
         }
     }
 
+    /**
+     * 更新指定的客户信息
+     * @param Request $request
+     * @param Custom $custom
+     * @return CustomResource
+     */
     public function update(Request $request, Custom $custom)
     {
         $custom->update($request->toArray());

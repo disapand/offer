@@ -41,28 +41,47 @@ class AuthController extends Controller
         return response()->json(['message' => '退出成功']);
     }
 
+    /**
+     * @return UserResource
+     */
     public function profile()
     {
        $user =  Auth::guard('api')->user();
        return new UserResource($user);
     }
 
+    /**
+     * @param User $user
+     * @return UserResource
+     */
     public function show(User $user)
     {
         return new UserResource($user);
     }
 
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function profiles()
     {
         return UserResource::collection(User::all());
     }
 
+    /**
+     * @param UserRequest $userRequest
+     * @return UserResource
+     */
     public function store(UserRequest $userRequest)
     {
         $userRequest['password'] = bcrypt($userRequest['password']);
         return new UserResource(User::updateOrCreate($userRequest->toArray()));
     }
 
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(User $user, Request $request)
     {
         if ($request['password']) {
@@ -76,6 +95,10 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(User $user)
     {
         try{

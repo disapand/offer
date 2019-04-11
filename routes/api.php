@@ -19,17 +19,23 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'refresh.token'], function () {
+
+    // 客户信息操作的路由
     Route::get('customs', 'API\CustomController@index');
     Route::get('custom/{custom}', 'API\CustomController@show');
     Route::delete('custom/{custom}', 'API\CustomController@destroy');
     Route::post('custom', 'API\CustomController@store');
     Route::post('custom/{custom}', 'API\CustomController@update');
+
+    // 账号信息操作路由
     Route::delete('profile/{user}', 'API\AuthController@destroy');
     Route::get('profile', 'API\AuthController@profile');
     Route::get('profile/{user}', 'API\AuthController@show');
     Route::put('profile/{user}', 'API\AuthController@update');
     Route::get('profiles', 'API\AuthController@profiles');
     Route::post('profile', 'API\AuthController@store');
+
+    // 价目操作相关路由
     Route::get('prices', 'API\PriceController@index');
     Route::get('price/{name}', 'API\PriceController@search')->where('name', '[^\d]+');
     Route::get('price/{price}', 'API\PriceController@show');
