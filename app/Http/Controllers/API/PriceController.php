@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 
 class PriceController extends Controller
 {
+    const PAGESIZE = 10;
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +18,7 @@ class PriceController extends Controller
      */
     public function index()
     {
-        return PriceResource::collection(Price::paginate(5));
+        return PriceResource::collection(Price::paginate(self::PAGESIZE));
     }
 
     /**
@@ -56,7 +57,7 @@ class PriceController extends Controller
     public function search($name)
     {
         $prices = Price::where('name', 'like', "%$name%")->paginate();
-        return PriceResource::collection($prices->paginate(5));
+        return PriceResource::collection($prices->paginate(self::PAGESIZE));
     }
 
     /**
