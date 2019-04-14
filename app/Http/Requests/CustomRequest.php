@@ -25,7 +25,7 @@ class CustomRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'email' => 'email',
+            'email' => 'email|nullable',
             'number' => 'required'
         ];
     }

@@ -18,7 +18,7 @@ class CustomController extends Controller
      */
     public function index()
     {
-        return new CustomResource(Custom::paginate());
+        return CustomResource::collection(Custom::paginate(10));
     }
 
     /**
@@ -40,9 +40,9 @@ class CustomController extends Controller
      */
     public function store(CustomRequest $request)
     {
-        return new CustomResource(Custom::create($request->toArray()));
+        $custom = $request->toArray();
+        return new CustomResource(Custom::create($custom));
     }
-
 
     /**
      * 删除指定的客户信息
