@@ -22,6 +22,7 @@ Route::group(['middleware' => 'refresh.token'], function () {
 
     // 客户信息操作的路由
     Route::get('customs', 'API\CustomController@index');
+    Route::get('custom/{nameOrCompany}', 'API\CustomController@search')->where('nameOrCompany', '[^\d]+');
     Route::get('custom/{custom}', 'API\CustomController@show');
     Route::delete('custom/{custom}', 'API\CustomController@destroy');
     Route::post('custom', 'API\CustomController@store');

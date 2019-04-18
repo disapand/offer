@@ -56,8 +56,8 @@ class PriceController extends Controller
 
     public function search($name)
     {
-        $prices = Price::where('name', 'like', "%$name%")->paginate();
-        return PriceResource::collection($prices->paginate(self::PAGESIZE));
+        $prices = Price::where('name', 'like', "%$name%")->paginate(self::PAGESIZE);
+        return PriceResource::collection($prices);
     }
 
     /**

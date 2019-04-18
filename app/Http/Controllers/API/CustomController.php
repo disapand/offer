@@ -75,4 +75,10 @@ class CustomController extends Controller
         $custom->update($request->toArray());
         return new CustomResource($custom);
     }
+
+    public function search($nameOrCompany)
+    {
+        $customs = Custom::where('name', 'like', "%$nameOrCompany%")->orWhere('company', 'like', "%$nameOrCompany%")->get();
+        return CustomResource::collection($customs);
+    }
 }
