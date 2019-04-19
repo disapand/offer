@@ -19,6 +19,8 @@ class UserResource extends Resource
             'username' => $this->username,
             'account' => $this->account,
             'sign' => strtoupper($this->sign),
+            'number' => $this->number,
+            'tel' => $this->tel,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
             'deleted_at' => $this->created_at->toDateTimeString(),
