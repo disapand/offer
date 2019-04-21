@@ -26,4 +26,9 @@ class Custom extends Model
     protected $dates = [
         'deleted_at'
     ];
+
+    public function papers()
+    {
+        return $this->hasMany(Paper::class, 'custom_id', 'id');
+    }
 }

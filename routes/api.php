@@ -43,6 +43,10 @@ Route::group(['middleware' => 'refresh.token'], function () {
     Route::delete('price/{price}', 'API\PriceController@destroy');
     Route::post('price', 'API\PriceController@store');
     Route::post('price/{price}', 'API\PriceController@update');
+
+    //报价单相关操作
+    Route::get('/papers', 'API\PaperController@index');
+    Route::post('/paper', 'API\PaperController@store');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
