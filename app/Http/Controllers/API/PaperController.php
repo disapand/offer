@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Resources\PaperResource;
 use App\Models\Custom;
 use App\Models\Paper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\handle\handle;
+use Illuminate\Support\Facades\Auth;
 
 class PaperController extends Controller
 {
@@ -17,7 +19,15 @@ class PaperController extends Controller
      */
     public function index()
     {
-        //
+        $username = Auth::guard('api')->user()->username;
+        if ($username === '管理员') {
+            $papers = PaperResource::collection(Paper::all());
+        } else {
+            $papers = PaperResource::collection(Paper::whereHas('user',function ($query) use ($username) {
+                $query->where('username', 'like', "%$username%");
+            })->get());
+        }
+        return $papers;
     }
 
     /**
@@ -48,14 +58,13 @@ class PaperController extends Controller
                 'custom_id' => $custom['id'],
                 'paperId' => $request->paperId,
                 'paperTime' => $request->paperTime,
-                'paperList' => $handle->save2text($request->paperList),
+                'paperList' => $request->paperList,
                 'discount' => $request->discount,
                 'shouldPay' => $request->shouldPay,
                 'transformPrice' => $request->transformPrice,
             );
 
             Paper::create($data);
-            return response()->json($handle->get2array($data['paperList']));
             return response()->json(['Msg' => '创建成功'], 200);
         } catch (Exception $exception) {
             return response()->json($exception);
@@ -68,9 +77,9 @@ class PaperController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Paper $paper)
     {
-        //
+        return new PaperResource($paper);
     }
 
     /**

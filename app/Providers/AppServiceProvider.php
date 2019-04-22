@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Paper;
+use App\Models\User;
+use App\Observers\PaperObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paper::observe(PaperObserver::class);
     }
 
     /**

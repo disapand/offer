@@ -46,6 +46,7 @@ Route::group(['middleware' => 'refresh.token'], function () {
 
     //报价单相关操作
     Route::get('/papers', 'API\PaperController@index');
+    Route::get('/paper/{paper}', 'API\PaperController@show');
     Route::post('/paper', 'API\PaperController@store');
 });
 
