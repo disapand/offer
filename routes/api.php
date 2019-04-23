@@ -46,8 +46,10 @@ Route::group(['middleware' => 'refresh.token'], function () {
 
     //报价单相关操作
     Route::get('/papers', 'API\PaperController@index');
+    Route::get('/paperSearch/{company}', 'API\PaperController@query');
     Route::get('/paper/{paper}', 'API\PaperController@show');
     Route::post('/paper', 'API\PaperController@store');
+    Route::delete('/paper/{paper}', 'API\PaperController@destroy');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

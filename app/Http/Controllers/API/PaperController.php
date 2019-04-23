@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 class PaperController extends Controller
 {
+    const PAGESIZE = 10;
+
     /**
      * Display a listing of the resource.
      *
@@ -21,11 +23,11 @@ class PaperController extends Controller
     {
         $username = Auth::guard('api')->user()->username;
         if ($username === '管理员') {
-            $papers = PaperResource::collection(Paper::all());
+            $papers = PaperResource::collection(Paper::paginate(self::PAGESIZE));
         } else {
-            $papers = PaperResource::collection(Paper::whereHas('user',function ($query) use ($username) {
+            $papers = PaperResource::collection(Paper::whereHas('user', function ($query) use ($username) {
                 $query->where('username', 'like', "%$username%");
-            })->get());
+            })->paginate(self::PAGESIZE));
         }
         return $papers;
     }
@@ -111,8 +113,26 @@ class PaperController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Paper $paper)
     {
-        //
+        try {
+            $paper->delete();
+            return response()->json([
+                'Msg' => '删除成功'
+            ]);
+        } catch (Exception $exception) {
+            return reponse()->json([
+                'error' => '删除报价单出错',
+                'Msg' => $exception->getMessage()
+            ]);
+        }
+    }
+
+    public function query($company)
+    {
+        $papers = Paper::whereHas('custom', function ($query) use ($company) {
+            $query->where('company', 'like', "%$company%");
+        })->paginate(self::PAGESIZE);
+        return PaperResource::collection($papers);
     }
 }
