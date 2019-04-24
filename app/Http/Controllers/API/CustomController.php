@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 class CustomController extends Controller
 {
 
+    const PAGESIZE = 10;
     /**
      *  获取所有的客户信息
      *
@@ -18,7 +19,7 @@ class CustomController extends Controller
      */
     public function index()
     {
-        return CustomResource::collection(Custom::paginate(10));
+        return CustomResource::collection(Custom::paginate(self::PAGESIZE));
     }
 
     /**
@@ -78,7 +79,7 @@ class CustomController extends Controller
 
     public function search($nameOrCompany)
     {
-        $customs = Custom::where('name', 'like', "%$nameOrCompany%")->orWhere('company', 'like', "%$nameOrCompany%")->get();
+        $customs = Custom::where('name', 'like', "%$nameOrCompany%")->orWhere('company', 'like', "%$nameOrCompany%")->paginate(self::PAGESIZE);
         return CustomResource::collection($customs);
     }
 }
