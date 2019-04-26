@@ -135,4 +135,9 @@ class PaperController extends Controller
         })->paginate(self::PAGESIZE);
         return PaperResource::collection($papers);
     }
+
+    public function uploadPaperList(Request $request)
+    {
+        return response()->json($request);
+    }
 }

@@ -49,6 +49,7 @@ Route::group(['middleware' => 'refresh.token'], function () {
     Route::get('/paperSearch/{company}', 'API\PaperController@query');
     Route::get('/paper/{paper}', 'API\PaperController@show');
     Route::post('/paper', 'API\PaperController@store');
+    Route::post('/uploadPaperList', 'API\PaperController@uploadPaperList');
     Route::delete('/paper/{paper}', 'API\PaperController@destroy');
 });
 
