@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Resources\PaperResource;
+use App\Imports\TestImport;
 use App\Models\Custom;
 use App\Models\Paper;
+use App\Models\Price;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\handle\handle;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PaperController extends Controller
 {
@@ -138,6 +141,20 @@ class PaperController extends Controller
 
     public function uploadPaperList(Request $request)
     {
-        return response()->json($request);
+        $data = Excel::toArray(new TestImport(), $request->file('file'))[0];
+        $paperList = [];
+        for ($i = 2; $i < count($data) - 1; $i ++) {
+            $tmp['name'] = $data[$i][3];
+            $tmp['type'] = $data[$i][4];
+            $tmp['number'] = $data[$i][5] ? $data[$i][5] : 1;
+            $price = Price::where('name', 'like', '%' . $tmp['name'] . '%')->first();
+            $tmp['price'] = $price ? $price->price : '0';
+            $tmp['level'] = $price ? $price->level : '';
+            $tmp['range'] = $price ? $price->range : '';
+            $tmp['total'] = $tmp['price'] * $tmp['number'];
+            array_push($paperList, $tmp);
+        }
+
+        return response()->json(['data' => $paperList]);
     }
 }
