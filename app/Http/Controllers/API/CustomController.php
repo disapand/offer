@@ -19,7 +19,7 @@ class CustomController extends Controller
      */
     public function index()
     {
-        return CustomResource::collection(Custom::paginate(self::PAGESIZE));
+        return CustomResource::collection(Custom::orderby('id', 'desc')->paginate(self::PAGESIZE));
     }
 
     /**
@@ -79,7 +79,7 @@ class CustomController extends Controller
 
     public function search($nameOrCompany)
     {
-        $customs = Custom::where('name', 'like', "%$nameOrCompany%")->orWhere('company', 'like', "%$nameOrCompany%")->paginate(self::PAGESIZE);
+        $customs = Custom::where('name', 'like', "%$nameOrCompany%")->orWhere('company', 'like', "%$nameOrCompany%")->orderby('id', 'desc')->paginate(self::PAGESIZE);
         return CustomResource::collection($customs);
     }
 }

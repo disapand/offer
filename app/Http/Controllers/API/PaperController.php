@@ -26,11 +26,11 @@ class PaperController extends Controller
     {
         $username = Auth::guard('api')->user()->username;
         if ($username === '管理员') {
-            $papers = PaperResource::collection(Paper::paginate(self::PAGESIZE));
+            $papers = PaperResource::collection(Paper::orderby('id', 'desc')->paginate(self::PAGESIZE));
         } else {
             $papers = PaperResource::collection(Paper::whereHas('user', function ($query) use ($username) {
                 $query->where('username', 'like', "%$username%");
-            })->paginate(self::PAGESIZE));
+            })->orderby('id', 'desc')->paginate(self::PAGESIZE));
         }
         return $papers;
     }
@@ -135,7 +135,7 @@ class PaperController extends Controller
     {
         $papers = Paper::whereHas('custom', function ($query) use ($company) {
             $query->where('company', 'like', "%$company%");
-        })->paginate(self::PAGESIZE);
+        })->orderby('id', 'desc')->paginate(self::PAGESIZE);
         return PaperResource::collection($papers);
     }
 
@@ -143,10 +143,10 @@ class PaperController extends Controller
     {
         $data = Excel::toArray(new TestImport(), $request->file('file'))[0];
         $paperList = [];
-        for ($i = 2; $i < count($data) - 1; $i ++) {
-            $tmp['name'] = $data[$i][3];
-            $tmp['type'] = $data[$i][4];
-            $tmp['number'] = $data[$i][5] ? $data[$i][5] : 1;
+        for ($i = 1; $i < count($data); $i ++) {
+            $tmp['name'] = $data[$i][1];
+            $tmp['type'] = $data[$i][2];
+            $tmp['number'] = $data[$i][3] ? $data[$i][3] : 1;
             $price = Price::where('name', 'like', '%' . $tmp['name'] . '%')->first();
             $tmp['price'] = $price ? $price->price : '0';
             $tmp['level'] = $price ? $price->level : '';

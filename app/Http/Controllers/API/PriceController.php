@@ -18,7 +18,7 @@ class PriceController extends Controller
      */
     public function index()
     {
-        return PriceResource::collection(Price::paginate(self::PAGESIZE));
+        return PriceResource::collection(Price::orderby('id', 'desc')->paginate(self::PAGESIZE));
     }
 
     /**
@@ -56,7 +56,7 @@ class PriceController extends Controller
 
     public function search($name)
     {
-        $prices = Price::where('name', 'like', "%$name%")->paginate(self::PAGESIZE);
+        $prices = Price::where('name', 'like', "%$name%")->orderby('id', 'desc')->paginate(self::PAGESIZE);
         return PriceResource::collection($prices);
     }
 
