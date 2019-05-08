@@ -53,7 +53,6 @@ class PaperController extends Controller
      */
     public function store(Request $request, handle $handle)
     {
-        try {
             $custom = $request->contact;
             $custom = Custom::updateOrCreate($custom);
             $user = $request->profile;
@@ -71,9 +70,6 @@ class PaperController extends Controller
 
             Paper::create($data);
             return response()->json(['Msg' => '创建成功'], 200);
-        } catch (Exception $exception) {
-            return response()->json($exception);
-        }
     }
 
     /**
