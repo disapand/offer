@@ -9,7 +9,7 @@ class handle
     public function save2text($context)
     {
         $floder_name = public_path(). '/uploads/'. date('Ym/d', time());
-        $file_name = time() . str_random(6) . '.php';
+        $file_name = time() . str_random(6) . '.txt';
         $full_name = $floder_name. '/' .$file_name;
         if (!file_exists($floder_name)) {
             mkdir($floder_name, 0777, true);
