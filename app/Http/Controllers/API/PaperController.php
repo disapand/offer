@@ -69,8 +69,6 @@ class PaperController extends Controller
                 'transformPrice' => $request->transformPrice,
             );
 
-            return response()->json($data);
-            
             Paper::create($data);
             return response()->json(['Msg' => '创建成功'], 200);
         } catch (Exception $exception) {
