@@ -18,7 +18,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('logout', 'API\AuthController@logout');
 });
 
-Route::group(['middleware' => 'refresh.token'], function () {
+//Route::group(['middleware' => 'refresh.token'], function () {
 
     // 客户信息操作的路由
     Route::get('customs', 'API\CustomController@index');
@@ -51,7 +51,7 @@ Route::group(['middleware' => 'refresh.token'], function () {
     Route::post('/paper', 'API\PaperController@store');
     Route::post('/uploadPaperList', 'API\PaperController@uploadPaperList');
     Route::delete('/paper/{paper}', 'API\PaperController@destroy');
-});
+//});
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
